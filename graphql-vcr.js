@@ -7,6 +7,7 @@ const ms = require('ms')
 const mfs = require('mz/fs')
 const { graphql } = require('graphql')
 const isEqual = require('lodash.isequal')
+const chalk = require('chalk')
 
 module.exports = opts => {
   const {
@@ -42,10 +43,11 @@ module.exports = opts => {
     recordRequest() {
       let indexOfRequest
       return {
-        query(query) {
+        query(query, context) {
           if (enable) {
             indexOfRequest = currentSession.push({
               query,
+              context: JSON.stringify(context),
               requestedAt: new Date()
             })
           }
@@ -61,21 +63,31 @@ module.exports = opts => {
       const requests = JSON.parse(await mfs.readFile(file, 'utf8'))
       for (let index = 0; index < requests.length; index++) {
         const req = requests[index]
-        console.log(`replaying req ${index}/${requests.length}`)
-        await graphql(schema, req.query)
-        console.log(`finished req ${index}/${requests.length}`)
+        console.log(
+          chalk.yellow(`replaying req ${index + 1}/${requests.length}`)
+        )
+        await graphql(schema, req.query.query, null, JSON.parse(req.context))
+
+        console.log(chalk.green(`finished req ${index + 1}/${requests.length}`))
       }
     },
     async playAndCheck(file) {
       const requests = JSON.parse(await mfs.readFile(file, 'utf8'))
       for (let index = 0; index < requests.length; index++) {
         const req = requests[index]
-        console.log(`replaying req ${index}/${requests.length}`)
-        const result = await graphql(schema, req.query)
+        console.log(
+          chalk.yellow(`replaying req ${index + 1}/${requests.length}`)
+        )
+        const result = await graphql(
+          schema,
+          req.query.query,
+          null,
+          JSON.parse(req.context)
+        )
         if (!isEqual(result, JSON.parse(req.result))) {
           throw new Error(`result from ${req.query} does not match`) // TODO print out a comparison
         }
-        console.log(`finished req ${index}/${requests.length}`)
+        console.log(chalk.green(`finished req ${index + 1}/${requests.length}`))
       }
     }
   }

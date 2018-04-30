@@ -1,6 +1,6 @@
 {
   "name": "graphql-vcr",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "record graphQL request and replay them",
   "main": "graphql-vcr.js",
   "scripts": {
@@ -11,7 +11,12 @@
     "type": "git",
     "url": "git+https://github.com/capaj/graphql-vcr.git"
   },
-  "keywords": ["graphql", "testing", "integration", "functional"],
+  "keywords": [
+    "graphql",
+    "testing",
+    "integration",
+    "functional"
+  ],
   "author": "capajj@gmail.com",
   "license": "MIT",
   "bugs": {
@@ -26,6 +31,7 @@
     "graphql": "^0.13.2"
   },
   "dependencies": {
+    "chalk": "^2.4.1",
     "glob": "^7.1.2",
     "lodash.isequal": "^4.5.0",
     "mkdirp": "^0.5.1",
