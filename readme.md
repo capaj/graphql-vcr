@@ -4,8 +4,11 @@
 
 ```javascript
 import graphqlVcr from 'graphql-vcr'
+import { graphql } from 'graphql'
+
 const vcr = graphqlVcr({
   schema,
+  graphql
   enable: true /* put false to disable recording without having to remove any code*/
 })
 
@@ -21,7 +24,7 @@ graphQLRouter.post('/graphql', koaBody(), (context, next) => {
 })
 
 // then to replay:
-vcr.play('./vcr-sessions/2018-04-30T00:24:24.317Z.json')
-// then to replay and check:
-vcr.playAndCheck('./vcr-sessions/2018-04-30T00:24:24.317Z.json')
+vcr.playFile('./vcr-sessions/2018-04-30T00:24:24.317Z.json', false) // pass true as second argument to check the result of queries
+// helper method
+vcr.playLastSession(false) // pass true as second argument to check the result of queries
 ```

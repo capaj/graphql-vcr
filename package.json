@@ -1,11 +1,11 @@
 {
   "name": "graphql-vcr",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "record graphQL request and replay them",
-  "main": "graphql-vcr.js",
+  "main": "dist/graphql-vcr.js",
   "scripts": {
-    "test": "ava graphql-vcr.spec.js",
-    "prepare": "npm run test"
+    "test": "jest",
+    "prepare": "npm run test && tsc"
   },
   "repository": {
     "type": "git",
@@ -24,8 +24,18 @@
   },
   "homepage": "https://github.com/capaj/graphql-vcr#readme",
   "devDependencies": {
-    "ava": "^0.25.0",
-    "graphql": "^0.13.2"
+    "@types/glob": "^5.0.35",
+    "@types/graphql": "^0.13.0",
+    "@types/jest": "^22.2.3",
+    "@types/lodash.isequal": "^4.5.2",
+    "@types/mkdirp": "^0.5.2",
+    "@types/ms": "^0.7.30",
+    "@types/mz": "0.0.32",
+    "@types/node": "^10.0.2",
+    "graphql": "^0.13.2",
+    "jest": "^22.4.3",
+    "ts-jest": "^22.4.4",
+    "typescript": "^2.8.3"
   },
   "peerDependencies": {
     "graphql": "^0.13.2"
@@ -38,5 +48,22 @@
     "ms": "^2.1.1",
     "mz": "^2.7.0",
     "object-fsify": "^0.2.0"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.ts?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "(\\.(spec))\\.(js?|ts?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json"
+    ]
+  },
+  "typings": "dist/graphql-vcr.d.ts",
+  "typescript": {
+    "definition": "dist/graphql-vcr.d.ts"
   }
 }
